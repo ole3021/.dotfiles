@@ -246,8 +246,15 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  ;; Relative Line Number
   (global-linum-mode nil)
   (linum-relative-toggle)
+  ;; Eslint for Javascript
+  (add-hook 'js2-mode-hook
+     (defun my-js2-mode-setup ()
+        (flycheck-mode t)
+        (when (executable-find "eslint")
+           (flycheck-select-checker 'javascript-eslint))))
   ;; (javascript :variables javascript-disable-tern-port-files nil)
  )
 
