@@ -24,14 +24,15 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;;
+     auto-completion
+     colors
      editorconfig
      emacs-lisp
      git
      html
-     (javascript :variables
-                 js2-basic-offset 2
-                 js-indent-level 2)
+     javascript
      markdown
+     org
      osx
      react
      spell-checking
@@ -241,7 +242,32 @@ It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
   )
+(defun dotspacemacs/config ()
+  "Configuration function.
+This function is called at the very end of Spacemacs initialization after
+layers configuration."
+  (add-hook 'alchemist-mode-hook 'company-mode)
 
+  (add-hook 'elm-mode-hook
+            (lambda ()
+              (setq company-backends '(company-elm))))
+
+  (setq flycheck-checkers '(javascript-eslint))
+
+  (require 'flycheck)
+  ;; turn on flychecking globally
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  ;; disable jshint since we prefer eslint checking
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint)))
+  ;; use eslint with web-mode for jsx files
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ;; disable json-jsonlist checking for json files
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(json-jsonlist)))
+)
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -249,12 +275,19 @@ layers configuration. You are free to put any user code."
   ;; Relative Line Number
   (global-linum-mode nil)
   (linum-relative-toggle)
-  ;; Eslint for Javascript
-  (add-hook 'js2-mode-hook
-     (defun my-js2-mode-setup ()
-        (flycheck-mode t)
-        (when (executable-find "eslint")
-           (flycheck-select-checker 'javascript-eslint))))
+
+  ;; Add fix for layers
+  (setq tab-width 2)
+  (setq js-indent-level 2)
+  (setq css-indent-offset 2)
+
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+
+  (setq css-mode-css-indent-offset 2)
+
+  (setq-default evil-shift-width 2)
   ;; (javascript :variables javascript-disable-tern-port-files nil)
  )
 
