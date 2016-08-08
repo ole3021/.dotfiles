@@ -26,6 +26,7 @@ values."
      ;;
      auto-completion
      colors
+     company
      editorconfig
      emacs-lisp
      git
