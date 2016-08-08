@@ -13,7 +13,6 @@
       },
       "sourceType": "module"
   },
-  "plugins": [ "react" ],
   "rules": {
       "indent": [ 2, 2, { "SwitchCase": 1 } ],
       "linebreak-style": [ 2, "unix" ],
