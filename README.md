@@ -7,6 +7,9 @@ oh-my-zsh, vim, tmux, and so on config
 #### Lync to my file on somewhere
 `ln -s $PATH/TO/ORIGIN $PATH/TO/LINK`
 
+### init submodule
+`git submodule update --init --recursive`
+
 ## Config Description
 | File | Package |
 | ---------- | --------- |
